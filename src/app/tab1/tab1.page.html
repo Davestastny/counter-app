@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>CounterApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        {{ counterName || 'Moje počítadlo' }}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-input
+        label="Název počítadla"
+        label-placement="stacked"
+        fill="outline"
+        placeholder="Například návštěvníci"
+        [(ngModel)]="counterName"
+      ></ion-input>
+
+      <p class="counter-value">{{ count }}</p>
+
+      <div class="counter-actions">
+        <ion-button
+          color="danger"
+          [disabled]="count === 0"
+          (click)="decrement()"
+        >
+          −1
+        </ion-button>
+
+        <ion-button color="primary" (click)="increment()">
+          +1
+        </ion-button>
+
+        <ion-button
+          color="medium"
+          fill="outline"
+          [disabled]="count === 0"
+          (click)="reset()"
+        >
+          Reset
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

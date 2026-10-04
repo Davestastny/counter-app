@@ -1,0 +1,23 @@
+ion-card {
+  max-width: 32rem;
+  margin: 1rem auto;
+}
+
+.counter-value {
+  margin: 2rem 0;
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.counter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.counter-actions ion-button {
+  min-width: 6rem;
+}
