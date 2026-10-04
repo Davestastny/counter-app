@@ -21,9 +21,32 @@
         [(ngModel)]="counterName"
       ></ion-input>
 
-      <p class="counter-value">{{ count }}</p>
+      <!-- Bonus 2: Vstup pro krok -->
+      <ion-input
+        type="number"
+        label="Velikost kroku"
+        label-placement="stacked"
+        fill="outline"
+        style="margin-top: 1rem;"
+        [(ngModel)]="step"
+      ></ion-input>
+
+      <!-- Bonus 3: Barevné odlišení podle hodnoty -->
+      <p class="counter-value" [style.color]="count === 0 ? 'var(--ion-color-medium)' : 'var(--ion-color-success)'">
+        {{ count }}
+      </p>
 
       <div class="counter-actions">
+        <!-- Bonus 1: Tlačítka +5 a -5 -->
+        <ion-button
+          color="danger"
+          fill="outline"
+          [disabled]="count === 0"
+          (click)="decrementBy(5)"
+        >
+          −5
+        </ion-button>
+
         <ion-button
           color="danger"
           [disabled]="count === 0"
@@ -37,12 +60,47 @@
         </ion-button>
 
         <ion-button
+          color="primary"
+          fill="outline"
+          (click)="incrementBy(5)"
+        >
+          +5
+        </ion-button>
+      </div>
+
+      <div class="counter-actions" style="margin-top: 0.75rem;">
+        <!-- Tlačítka s dynamickým krokem (Bonus 2) -->
+        <ion-button
+          color="warning"
+          [disabled]="count === 0"
+          (click)="decrementBy(step)"
+        >
+          −{{ step }}
+        </ion-button>
+
+        <ion-button color="success" (click)="incrementBy(step)">
+          +{{ step }}
+        </ion-button>
+      </div>
+
+      <div class="counter-actions" style="margin-top: 0.75rem;">
+        <ion-button
           color="medium"
           fill="outline"
           [disabled]="count === 0"
           (click)="reset()"
         >
-          Reset
+          Reset hodnoty
+        </ion-button>
+
+        <!-- Bonus 4: Smazat vše (hodnotu i název) -->
+        <ion-button
+          color="dark"
+          fill="solid"
+          [disabled]="count === 0 && !counterName"
+          (click)="resetAll()"
+        >
+          Smazat vše
         </ion-button>
       </div>
     </ion-card-content>

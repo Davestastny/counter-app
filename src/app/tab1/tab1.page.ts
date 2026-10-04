@@ -34,6 +34,7 @@ import {
 export class Tab1Page {
   counterName = '';
   count = 0;
+  step = 1;
 
   increment(): void {
     this.count++;
@@ -45,7 +46,25 @@ export class Tab1Page {
     }
   }
 
+  incrementBy(val: number): void {
+    this.count += Number(val);
+  }
+
+  decrementBy(val: number): void {
+    const amount = Number(val);
+    if (this.count - amount >= 0) {
+      this.count -= amount;
+    } else {
+      this.count = 0;
+    }
+  }
+
   reset(): void {
     this.count = 0;
+  }
+
+  resetAll(): void {
+    this.count = 0;
+    this.counterName = '';
   }
 }
