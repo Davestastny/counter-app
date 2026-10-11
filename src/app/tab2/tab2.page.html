@@ -13,34 +13,82 @@
   } @else if (counterService.counters().length === 0) {
     <p class="state-message">Historie je zatím prázdná.</p>
   } @else {
-    <div class="history-header">
-      <p>Počet záznamů: {{ counterService.counters().length }}</p>
-      <ion-button color="danger" fill="outline" size="small" (click)="clear()">
-        Vymazat vše
-      </ion-button>
+    <ion-card class="stats-card">
+      <ion-card-content>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Počet záznamů</span>
+            <span class="stat-value">{{ counterService.counters().length }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Součet hodnot</span>
+            <span class="stat-value">{{ totalSum() }}</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="controls-container">
+      <ion-searchbar
+        [ngModel]="searchQuery()"
+        (ionInput)="searchQuery.set($event.detail.value ?? '')"
+        placeholder="Hledat podle názvu…"
+        debounce="150"
+      ></ion-searchbar>
+
+      <div class="actions-row">
+        <ion-item class="sort-item" lines="none">
+          <ion-select
+            label="Řazení"
+            label-placement="start"
+            [ngModel]="sortOrder()"
+            (ionChange)="sortOrder.set($event.detail.value)"
+            interface="popover"
+          >
+            <ion-select-option value="newest">Nejnovější</ion-select-option>
+            <ion-select-option value="oldest">Nejstarší</ion-select-option>
+            <ion-select-option value="name">Podle názvu (A–Z)</ion-select-option>
+            <ion-select-option value="value-desc">Hodnota (nejvyšší)</ion-select-option>
+            <ion-select-option value="value-asc">Hodnota (nejnižší)</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-button
+          color="danger"
+          fill="outline"
+          size="small"
+          (click)="confirmClear()"
+        >
+          Vymazat vše
+        </ion-button>
+      </div>
     </div>
 
-    <ion-list>
-      @for (counter of counterService.counters(); track counter.id) {
-        <ion-item>
-          <ion-label>
-            <h2>{{ counter.name }}</h2>
-            <p>{{ counter.createdAt | date: 'd. M. y, HH:mm' }}</p>
-          </ion-label>
+    @if (filteredCounters().length === 0) {
+      <p class="state-message">Nebyly nalezeny žádné záznamy odpovídající hledání.</p>
+    } @else {
+      <ion-list>
+        @for (counter of filteredCounters(); track counter.id) {
+          <ion-item>
+            <ion-label>
+              <h2>{{ counter.name }}</h2>
+              <p>{{ counter.createdAt | date: 'd. M. y, HH:mm' }}</p>
+            </ion-label>
 
-          <ion-note slot="end">{{ counter.value }}</ion-note>
+            <ion-note slot="end">{{ counter.value }}</ion-note>
 
-          <ion-button
-            slot="end"
-            color="danger"
-            fill="clear"
-            aria-label="Odstranit záznam"
-            (click)="remove(counter.id)"
-          >
-            Odstranit
-          </ion-button>
-        </ion-item>
-      }
-    </ion-list>
+            <ion-button
+              slot="end"
+              color="danger"
+              fill="clear"
+              aria-label="Odstranit záznam"
+              (click)="remove(counter.id)"
+            >
+              Odstranit
+            </ion-button>
+          </ion-item>
+        }
+      </ion-list>
+    }
   }
 </ion-content>
