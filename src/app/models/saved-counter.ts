@@ -1,0 +1,5 @@
+export interface SavedCounter {
+  id: string;
+  name: string;
+  value: number;
+}
