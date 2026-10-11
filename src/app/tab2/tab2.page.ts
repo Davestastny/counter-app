@@ -58,6 +58,16 @@ export class Tab2Page implements OnInit {
     return this.counterService.counters().reduce((sum, c) => sum + c.value, 0);
   });
 
+  // Individuální funkce (Varianta A) - průměr hodnot uložených počítadel
+  readonly averageValue = computed(() => {
+    const list = this.counterService.counters();
+    if (list.length === 0) {
+      return 0;
+    }
+    const sum = list.reduce((acc, c) => acc + c.value, 0);
+    return Math.round((sum / list.length) * 100) / 100;
+  });
+
   readonly filteredCounters = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
     let result = this.counterService.counters();

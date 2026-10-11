@@ -67,6 +67,13 @@ describe('Tab2Page', () => {
     expect(component.totalSum()).toBe(15);
   });
 
+  it('should calculate averageValue correctly (Varianta A)', () => {
+    expect(component.averageValue()).toBe(7.5);
+
+    counterServiceMock.counters.set([]);
+    expect(component.averageValue()).toBe(0);
+  });
+
   it('should filter counters by search query', () => {
     component.searchQuery.set('jab');
     const filtered = component.filteredCounters();
